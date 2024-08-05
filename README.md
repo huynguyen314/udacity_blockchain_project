@@ -13,4 +13,4 @@ npx hardhat run scripts/deploy.js
 ```
 
 Sepolia Etherscan link of the deployed contract
-https://sepolia.etherscan.io/address/0xf0c182de0da5fcc1f8729f6d859d23429fca78de
+https://sepolia.etherscan.io/address/0x0e6ffc2f87af70b11ca39f129b73bd4f349f1771
