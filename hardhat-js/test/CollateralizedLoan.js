@@ -11,7 +11,6 @@ describe("CollateralizedLoan", function () {
   // A fixture to deploy the contract before each test. This helps in reducing code repetition.
   async function deployCollateralizedLoanFixture() {
     // Deploying the CollateralizedLoan contract and returning necessary variables
-    // TODO: Complete the deployment setup
     const [borrower, lender, addr1] = await ethers.getSigners();
     const CollateralizedLoan = await ethers.getContractFactory("CollateralizedLoan");
     const collateralizedLoan = await CollateralizedLoan.deploy();
@@ -22,16 +21,13 @@ describe("CollateralizedLoan", function () {
   describe("Loan Request", function () {
     it("Should let a borrower deposit collateral and request a loan", async function () {
       // Loading the fixture
-      // TODO: Set up test for depositing collateral and requesting a loan
-      // HINT: Use .connect() to simulate actions from different accounts
+      // Set up test for depositing collateral and requesting a loan
       const { collateralizedLoan, borrower } = await loadFixture(deployCollateralizedLoanFixture);
       await collateralizedLoan
       .connect(borrower)
       .depositCollateralAndRequestLoan(ethers.parseEther("5"), ethers.parseEther("864000"), {value: ethers.parseEther("100")});
       const loan = await collateralizedLoan.getLoan(1);
       expect(loan.interestRate.toString()).to.equal(ethers.parseEther("5").toString());
-      //expect(loan.isFunded).to.equal(false);
-      //expect(loan.isPaid).to.equal(false);
     });
   });
 
@@ -39,8 +35,7 @@ describe("CollateralizedLoan", function () {
   describe("Funding a Loan", function () {
     it("Allows a lender to fund a requested loan", async function () {
       // Loading the fixture
-      // TODO: Set up test for a lender funding a loan
-      // HINT: You'll need to check for an event emission to verify the action
+      // Set up test for a lender funding a loan
       const { collateralizedLoan, borrower, lender } = await loadFixture(deployCollateralizedLoanFixture);
       await collateralizedLoan
       .connect(borrower)
@@ -57,8 +52,7 @@ describe("CollateralizedLoan", function () {
   describe("Repaying a Loan", function () {
     it("Enables the borrower to repay the loan fully", async function () {
       // Loading the fixture
-      // TODO: Set up test for a borrower repaying the loan
-      // HINT: Consider including the calculation of the repayment amount
+      // Set up test for a borrower repaying the loan
       const { collateralizedLoan, borrower, lender } = await loadFixture(deployCollateralizedLoanFixture);
       await collateralizedLoan
       .connect(borrower)
@@ -78,8 +72,7 @@ describe("CollateralizedLoan", function () {
   describe("Claiming Collateral", function () {
     it("Permits the lender to claim collateral if the loan isn't repaid on time", async function () {
       // Loading the fixture
-      // TODO: Set up test for claiming collateral
-      // HINT: Simulate the passage of time if necessary
+      // Set up test for claiming collateral
       const { collateralizedLoan, borrower, lender } = await loadFixture(deployCollateralizedLoanFixture);
       await collateralizedLoan
       .connect(borrower)
