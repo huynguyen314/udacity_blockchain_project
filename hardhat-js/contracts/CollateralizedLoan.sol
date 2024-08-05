@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
+import "hardhat/console.sol";
 
 // Collateralized Loan Contract
 contract CollateralizedLoan {
@@ -41,6 +42,10 @@ contract CollateralizedLoan {
         _;
     }
 
+    // Get Loan infor
+    function getLoan(uint _loanId) public view returns (Loan memory) {
+        return loans[_loanId];
+    }
     // Function to deposit collateral and request a loan
     function depositCollateralAndRequestLoan(uint _interestRate, uint _duration) external payable {
         // Check if the collateral is more than 0
@@ -74,7 +79,7 @@ contract CollateralizedLoan {
         require(!loan.isRepaid, "Loan already repaid");
         require(block.timestamp <= loan.dueDate, "Loan is overdue");
 
-        uint totalRepayment = loan.loanAmount * (1 + loan.interestRate / 100);
+        uint256 totalRepayment = loan.loanAmount * (100 + loan.interestRate)/100;
         require(msg.value == totalRepayment, "Incorrect repayment amount.");
 
         loan.isRepaid = true;
@@ -88,6 +93,8 @@ contract CollateralizedLoan {
         require(loan.lender == msg.sender, "Only the lender can claim collateral.");
         require(loan.isFunded, "Loan must be funded.");
         require(!loan.isRepaid, "Loan has already been repaid");
+        console.log(block.timestamp);
+        console.log(loan.dueDate);
         require(block.timestamp > loan.dueDate, "Loan is not overdue yet.");
         
         loan.isRepaid = true; // Mark the loan as repaid since the lender claims collateral
